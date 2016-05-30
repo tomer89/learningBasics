@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/expenseImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/expns" />
+
+    <Button
+        android:id="@+id/btnEnterExpns"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="0"
+        android:backgroundTint="#E3A869"
+        android:paddingBottom="4dp"
+        android:text="enter expense"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/editExpense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_alignBottom="@+id/expenseImage"
+        android:layout_alignRight="@+id/btnEnterExpns"
+        android:layout_alignEnd="@+id/btnEnterExpns">
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/expensesView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnEnterExpns"
+        android:layout_marginStart="100dp"
+        android:layout_toLeftOf="@+id/btnEnterExpns"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:ignore="RtlCompat" />
+
+</RelativeLayout>
