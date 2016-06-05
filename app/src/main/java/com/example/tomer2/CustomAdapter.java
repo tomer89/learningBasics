@@ -7,10 +7,24 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomAdapter extends ArrayAdapter<String> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CustomAdapter extends ArrayAdapter {
+    List list = new ArrayList();
+
+    static class DataHandler{
+        ImageView thumbNail;
+
+        TextView textExpense ;
+        ImageView imageExpns ;
+        Button btnExpense;
+        EditText editExpense;
+    }
 
 	public CustomAdapter(Context context, int resource) {
 		super(context, resource);
@@ -18,31 +32,49 @@ public class CustomAdapter extends ArrayAdapter<String> {
 	}
 
     @Override
-    public void add(String object) {
+    public void add(Object object) {
         super.add(object);
+        list.add(object);
     }
 
     @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
+
+
+    @Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		LayoutInflater inflator = LayoutInflater.from(getContext());
-		View customView = inflator.inflate(R.layout.expenses_row_in_list, parent, false);
-        String singleExpense = getItem(position);
+        // TODO Auto-generated method stub
 
-        if(singleExpense == "expense") {
+        View row;
+        DataHandler data;
 
+        row = convertView;
+        data = new DataHandler();
 
-            TextView textExpense = (TextView) customView.findViewById(R.id.expensesView);
-            ImageView imageExpns = (ImageView) customView.findViewById(R.id.expenseImage);
-            Button btnExpense = (Button) customView.findViewById(R.id.btnEnterExpns);
-            EditText editExpense = (EditText) customView.findViewById(R.id.editExpense);
+        if (convertView == null) {
+            LayoutInflater inflator = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //what is this check in https://www.youtube.com/watch?v=DzpwvZ4S27g (row layout)
+            row = inflator.inflate(R.layout.expenses_row_in_list, parent, false);
+            data.btnExpense = (Button) row.findViewById(R.id.btnEnterExpns);
+            data.textExpense = (TextView) row.findViewById(R.id.expensesView);
+            data.imageExpns = (ImageView) row.findViewById(R.id.expenseImage);
+            data.editExpense = (EditText) row.findViewById(R.id.editExpense);
+            row.setTag(data);
+        } else {
+            data = (DataHandler) row.getTag();
         }
 
-		
-		return customView;
-		
-	}
-	
-	
-	
+        rowDataProvider rowData;
+        rowData = (rowDataProvider) this.getItem(position);
+        data.imageExpns.setImageResource((ImageView)rowData.getIconById());
+
+        return super.getView((position, convertView, parent));
+    }
 }
