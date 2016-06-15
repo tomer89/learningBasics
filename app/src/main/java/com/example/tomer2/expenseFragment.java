@@ -4,7 +4,9 @@ import java.util.regex.Pattern;
 import java.util.zip.Inflater;
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +20,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class expenseFragment extends Fragment{
+public class expenseFragment extends Fragment {
 
 	EditText expensesEdit; 
 	TextView expenseView;
 	Button expnsBtn;
+
+	//public expenseFragment newInstance() { return new expenseFragment();}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -45,8 +50,8 @@ public class expenseFragment extends Fragment{
 				});
 		return view;
 	}
-	
-	
+
+
 	/**
 	 * After entering a number to the expense area this method will remember and add the expense
 	 */
@@ -55,30 +60,30 @@ public class expenseFragment extends Fragment{
 		//		Get from user the expense we spent.
 		SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
-		
-		String text = expensesEdit.getText().toString(); 
-		
+
+		String text = expensesEdit.getText().toString();
+
 		if (Pattern.matches("[a-zA-Z]+", text) == false) {
 			Long expense = Long.parseLong(text);
 
 			addEntryToSum(expense);
-			
+
 			enterThisEntryToHistory(expense);
-			
+
 			this.showExpenses();
 		}
 		else{
 			AlertDialog.Builder enteredChars = new AlertDialog.Builder(this.getActivity());
 			enteredChars.setMessage("הכנס רק ספרות")
-			.setPositiveButton("אישור", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-				}
-			})
-			.create();
+					.setPositiveButton("אישור", new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							dialog.dismiss();
+						}
+					})
+					.create();
 			enteredChars.show();
 			/*MyFragment frag = new MyFragment();
 			FragmentManager manager = getFragmentManager();
@@ -91,9 +96,9 @@ public class expenseFragment extends Fragment{
 		}
 
 	}
-	
-	
-	
+
+
+
 
 	/**
 	 * Pressing on "show expenses will show the amount of expenses until now
@@ -101,16 +106,16 @@ public class expenseFragment extends Fragment{
 	private void showExpenses(){
 		SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
 		Long expenses = sharedPreferences.getLong("complete expenses", 0);
-		
+
 		expenseView.setText(String.valueOf(expenses));
 	}
-	
 
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	/**
 	 * adds the expense to the whole sum of expenses
 	 * @param expense the amount to add to the whole sum of expenses
@@ -123,7 +128,7 @@ public class expenseFragment extends Fragment{
 		editor.putLong("last amount",expense);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Adds the last expense entry to a history of transactions. This is sort of built like an array
 	 * @param expense the entry to add to history
@@ -134,22 +139,22 @@ public class expenseFragment extends Fragment{
 		editor.putLong("expenseEntries" + this.getIndexOfLastEntry(), expense);
 		editor.commit();
 	}
-	
+
 	private int getIndexOfLastEntry(){
 		SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("myData", Context.MODE_PRIVATE);
 		return sharedPreferences.getInt("indexLastEntry", 0);
 	}
-	
-	
-	
+
+
+
 	private void buttonClicked(View view){
 		switch(view.getId())
 		{
-		case R.id.btnEnterExpns:
-			this.enterExpense();
-			break;
-		default:
-			expenseView.setText("broke");
+			case R.id.btnEnterExpns:
+				this.enterExpense();
+				break;
+			default:
+				expenseView.setText("broke");
 		}
 	}
 
